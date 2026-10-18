@@ -53,3 +53,5 @@ android.numeric_version = 1
 
 # (str) 是否启用 Android 硬件加速（Kivy 默认开启）
 android.hardware.accelerometer = False
+
+android.accept_sdk_license = True
