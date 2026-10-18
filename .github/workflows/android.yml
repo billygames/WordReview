@@ -1,6 +1,7 @@
 name: Build Kivy APK
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  workflow_dispatch:
 
 jobs:
   build-android:
