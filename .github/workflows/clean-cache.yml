@@ -1,0 +1,52 @@
+name: Clean Caches
+
+# 只支持手动触发，避免误删
+on:
+  workflow_dispatch:
+
+jobs:
+  clean-cache:
+    name: 清理所有缓存与构建产物
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write   # 删除缓存/Artifacts 必须
+      contents: read   # 读取仓库内容
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 列出当前所有缓存
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "=== 当前仓库中的缓存列表 ==="
+          gh cache list --limit 100 || echo "（没有找到缓存）"
+
+      - name: 删除所有 actions/cache 缓存
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "=== 开始删除所有缓存 ==="
+          gh cache delete --all || echo "（没有缓存可删 或 删除完成）"
+
+      - name: 删除所有构建产物 Artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "=== 开始删除所有 Artifacts ==="
+          # 遍历所有运行记录里的 artifacts 并删除
+          gh api repos/${{ github.repository }}/actions/artifacts \
+            --paginate \
+            -q '.artifacts[] | "\(.id) \(.name)"' \
+          | while read -r id name; do
+              echo "删除 artifact: ${id} (${name})"
+              gh api -X DELETE repos/${{ github.repository }}/actions/artifacts/${id} || true
+            done
+
+      - name: 确认清理结果
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "=== 清理后剩余缓存 ==="
+          gh cache list --limit 100 || echo "✅ 所有缓存已清空"
