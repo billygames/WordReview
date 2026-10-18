@@ -7,7 +7,7 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/kivy/buildozer:latest
+      image: ghcr.io/kivy/buildozer:2024.01.21
       options: --user root
 
     steps:
