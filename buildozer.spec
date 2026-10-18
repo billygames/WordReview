@@ -11,7 +11,7 @@ package.domain = org.wordreview
 source.dir = .
 
 # (list) 需要打包进 APK 的文件扩展名
-source.include_exts = py,png,jpg,kv,atlas,ttf,json
+source.include_exts = py,png,jpg,kv,atlas,ttf
 
 # (list) 需要排除的文件/目录（可选）
 source.exclude_dirs = tests, bin, .git, .github
