@@ -30,6 +30,8 @@ A.B.C
 
 [**Noto Sans SC**](NotoSansSC-Regular.ttf)使用 [SIL OPEN FONT LICENSE Version 1.1](licenses/fonts/Noto%20Sans%20SC/OFL.txt)授权。
 
+[**app_icon.png**](app_icon.png)与[**app_icon.ico**](app_icon.ico)使用[ISC License](licenses/icons/Lucid%20Icons/ISC%20License.txt)授权。
+
 ## 致谢：
 本项目主要使用[DeepSeek](https://www.deepseek.com/)进行开发。
 
@@ -38,6 +40,10 @@ A.B.C
 该字体由 Google 提供，版权归 Adobe 所有，依据 [SIL Open Font License 1.1](https://openfontlicense.org/open-font-license-official-text/) 授权使用。
 
 完整的许可证文本见仓库根目录下的 [OFL.txt](licenses/fonts/Noto%20Sans%20SC/OFL.txt)。
+
+感谢[IconGenerator.app](https://icongenerator.app/) 提供图标生成工具。
+
+本项目部分图标基于其内置的[Lucide Icons](https://lucide.dev/) 图标集制作，Lucide Icons 采用 [ISC License](https://lucide.dev/license)。
 
 ## 其他说明：
 若项目README.md的内容有错误欢迎指出（其他文件也是）。
