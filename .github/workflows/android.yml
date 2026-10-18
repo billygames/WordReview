@@ -21,10 +21,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildozer-
 
+      # 方案一：依赖 buildozer.spec 中的 warn_on_root = 0
       - name: Build with Buildozer
-        env:
-          BUILDOZER_WARN_ON_ROOT: "0"
         run: buildozer android debug
+
+      # 或者，如果你选择方案二，将上一行替换为：
+      # - name: Build with Buildozer
+      #   run: yes | buildozer android debug
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
