@@ -1,67 +1,55 @@
 [app]
 
-# ---- 应用标识（桌面显示名用中文，内部 title 用英文避免编码问题）----
+# (str) 应用标题
 title = WordReview
+
+# (str) 包名 (反向域名格式)
 package.name = wordreview
 package.domain = org.wordreview
-android.app_name = 单词复习
 
-# ---- 源代码 ----
+# (str) 源文件目录
 source.dir = .
-# 必须包含 ttf（中文字体），json（词库导入导出）
-source.include_exts = py,png,jpg,jpeg,kv,atlas,ttf,json
-source.exclude_dirs = tests, bin, .github, __pycache__
-source.exclude_patterns = *.pyc,*.pyo,words.json
 
-# ---- 版本 ----
+# (list) 需要打包进 APK 的文件扩展名
+source.include_exts = py,png,jpg,kv,atlas,ttf,json
+
+# (list) 需要排除的文件/目录（可选）
+source.exclude_dirs = tests, bin, .git, .github
+
+# (str) 应用版本
 version = 1.0.0
-android.numeric_version = 1
 
-# ---- 依赖（Kivy 应用只需要这两项）----
-requirements = python3, hostpython3, kivy==3.0.0.dev0
+# (list) Python 包依赖
+# 严格指定 Python 3.12.10、Kivy 2.3.1
+requirements = python3==3.12.10,hostpython3==3.12.10,kivy==2.3.1
 
-# ---- 屏幕 ----
-# 你的 UI 按竖屏 430×820 设计，保持 portrait
-orientation = portrait
-fullscreen = 0
+# (list) Android 权限
+# 导入/导出 JSON 需要读写外部存储权限
+android.permissions = READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE
 
-# ---- Android 版本与架构 ----
+# (int) Target Android API
 android.api = 33
-android.minapi = 24
+
+# (int) Minimum API (Android 5.0)
+android.minapi = 21
+
+# (int) Android NDK 版本
 android.ndk = 25b
-# 同时构建 64 位和 32 位，覆盖绝大多数设备
+
+# (list) 目标 CPU 架构
 android.archs = arm64-v8a, armeabi-v7a
 
-# ---- 权限 ----
-# FileChooser 需要访问外部存储；MANAGE_EXTERNAL_STORAGE 用于 Android 11+
-# 访问 Download 目录（侧载/自用场景足够）
-android.permissions = READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,MANAGE_EXTERNAL_STORAGE
-
-# ---- 产物 ----
-android.release_artifact = apk
-android.debug_artifact = apk
-
-# ---- 其他构建行为 ----
-android.accept_sdk_license = True
-android.skip_update = False
-# 让 Python 的 print 出现在 logcat（调试时有用）
-android.logcat_filters = *:S python:D
-
-# ---- 可选：图标（如有 icon.png 可取消注释）----
+# (str) 应用图标（如果有则取消注释并放置 icon.png）
 # icon.filename = %(source.dir)s/icon.png
 
-# ---- 可选：启动画面（如有可取消注释）----
+# (str) 启动画面（可选）
 # presplash.filename = %(source.dir)s/presplash.png
 
+# (str) 应用版本号（整数，用于 Google Play）
+android.numeric_version = 1
 
-[buildozer]
+# (bool) 允许在非测试设备上安装 (debug 模式保持默认即可)
+# android.allow_backup = True
 
-# 关键：关闭 root 警告，CI 容器中自动继续，避免 EOFError
-warn_on_root = 0
-
-# 日志级别：0 = 仅错误，1 = 信息，2 = 调试（含命令输出）
-log_level = 2
-
-# 构建目录和产物目录（默认值，一般无需修改）
-build_dir = ./.buildozer
-bin_dir = ./bin
+# (str) 是否启用 Android 硬件加速（Kivy 默认开启）
+android.hardware.accelerometer = False
