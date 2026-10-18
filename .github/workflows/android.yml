@@ -1,0 +1,38 @@
+name: Build Kivy APK
+
+on: [push, pull_request]
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    # 关键修改：直接使用 Kivy 官方的 Buildozer 镜像
+    container:
+      image: ghcr.io/kivy/buildozer:latest
+      options: --user root # 以 root 身份运行，避免容器内的权限问题
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 可选：缓存 Buildozer 的全局目录，加速后续构建
+      # 注意：在官方镜像中，用户目录通常是 /home/user
+      - name: Cache Buildozer global directory
+        uses: actions/cache@v4
+        with:
+          path: /home/user/.buildozer
+          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+          restore-keys: |
+            ${{ runner.os }}-buildozer-
+
+      # 直接在容器内运行 buildozer 命令
+      - name: Build with Buildozer
+        run: |
+          buildozer android debug
+
+      # 上传生成的 APK
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: bin/*.apk
+          if-no-files-found: error
