@@ -18,7 +18,7 @@ version = 1.0.0
 android.numeric_version = 1
 
 # ---- 依赖（Kivy 应用只需要这两项）----
-requirements = python3,kivy
+requirements = python3==3.12.10,kivy==2.3.1
 
 # ---- 屏幕 ----
 # 你的 UI 按竖屏 430×820 设计，保持 portrait
